@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Store.prototype.predictCookiesToBake = function (averageCookiesPerCustomer, randomGenCustomers) {
         var cookies = Math.round(this.averageCookiesPerCustomer * this.generateRandomCustomers(this.minHourlyCustomers, this.maxHourlyCustomers));
         this.cookieCounts.push(cookies);
-        return cookies; 
+        return cookies;
     };
 
     var firstandpike = new Store(23, 65, 6.3);
@@ -26,16 +26,34 @@ document.addEventListener('DOMContentLoaded', function () {
     var alki = new Store(2, 16, 4.6);
 
     var stores = {
-        firstandpike : firstandpike,
-        seatacairport : seatacairport,
-        seattlecenter : seattlecenter,
-        capitolhill : capitolhill,
-        alki : alki
+        firstandpike: firstandpike,
+        seatacairport: seatacairport,
+        seattlecenter: seattlecenter,
+        capitolhill: capitolhill,
+        alki: alki
     }
 
     printLocationTimeCookiesToDom();
     printTotalsToDom(stores);
 
+    function printCookiesToBake(store) {
+        for (var i = 6; i <= 20; i++) { //for each hour, print hour and print predictCookiesToBake
+            if (i < 12) {
+                var li = document.createElement('li');
+                document.getElementById(store + 'List').appendChild(li);
+                li.textContent = '' + i + 'am: ' + stores[store].predictCookiesToBake() + ' cookies';
+
+            } else if (i === 12) {
+                var li = document.createElement('li');
+                document.getElementById(store + 'List').appendChild(li);
+                li.textContent = '' + i + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
+            } else {
+                var li = document.createElement('li');
+                document.getElementById(store + 'List').appendChild(li);
+                li.textContent = '' + (i - 12) + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
+            }
+        }
+    }
 
     //note: Object.keys returns array of stores ["firstandpike", "seatacairport", etc ]
     function printLocationTimeCookiesToDom() {
@@ -50,23 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var ul = document.createElement('ul');
             ul.setAttribute('id', store + 'List');
             h3.insertAdjacentElement('afterend', ul);
-            for (var i = 6; i <= 20; i++) { //for each hour, print hour and print predictCookiesToBake
-                if (i < 12) {
-                    var li = document.createElement('li');
-                    document.getElementById(store + 'List').appendChild(li);
-                    li.textContent = '' + i + 'am: ' + stores[store].predictCookiesToBake() + ' cookies';
-
-                } else if (i === 12) {
-                    var li = document.createElement('li');
-                    document.getElementById(store + 'List').appendChild(li);
-                    li.textContent = '' + i + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
-                } else {
-                    var li = document.createElement('li');
-                    document.getElementById(store + 'List').appendChild(li);
-                    li.textContent = '' + (i - 12) + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
-                }
-            }
-
+            printCookiesToBake(store)
         };
 
     };
