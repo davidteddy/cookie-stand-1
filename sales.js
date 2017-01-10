@@ -1,88 +1,43 @@
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
-    //put all stores in a single stores object
-    var stores = {
-        firstandpike: {
-            minHourlyCustomers: 23,
-            maxHourlyCustomers: 65,
-            averageCookiesPerCustomer: 6.3,
-            cookieCounts: [],                  //keeps track of cookie counts per hour
-            generateRandomCustomers: function (min, max) {
-                return Math.floor((Math.random() * (max - min + 1)) + min);
-            },
-            predictCookiesToBake: function (averageCookiesPerCustomer, randomGenCustomers) {
-                var cookies = Math.round(this.averageCookiesPerCustomer * this.generateRandomCustomers(this.minHourlyCustomers, this.maxHourlyCustomers));
-                this.cookieCounts.push(cookies);
-                return cookies;
-            },
-        },
-        seatacairport: {
-            minHourlyCustomers: 3,
-            maxHourlyCustomers: 24,
-            averageCookiesPerCustomer: 1.2,
-            cookieCounts: [],
-            generateRandomCustomers: function (min, max) {
-                return Math.floor((Math.random() * (max - min + 1)) + min);
-            },
-            predictCookiesToBake: function (averageCookiesPerCustomer, randomGenCustomers) {
-                var cookies = Math.round(this.averageCookiesPerCustomer * this.generateRandomCustomers(this.minHourlyCustomers, this.maxHourlyCustomers));
-                this.cookieCounts.push(cookies);
-                return cookies;
-            }
-        },
-        seattlecenter: {
-            minHourlyCustomers: 11,
-            maxHourlyCustomers: 38,
-            averageCookiesPerCustomer: 3.7,
-            cookieCounts: [],
-            generateRandomCustomers: function (min, max) {
-                return Math.floor((Math.random() * (max - min + 1)) + min);
-            },
-            predictCookiesToBake: function (averageCookiesPerCustomer, randomGenCustomers) {
-                var cookies = Math.round(this.averageCookiesPerCustomer * this.generateRandomCustomers(this.minHourlyCustomers, this.maxHourlyCustomers));
-                this.cookieCounts.push(cookies);
-                return cookies;
-            }
-        },
-        capitolhill: {
-            minHourlyCustomers: 20,
-            maxHourlyCustomers: 38,
-            averageCookiesPerCustomer: 2.3,
-            cookieCounts: [],
-            generateRandomCustomers: function (min, max) {
-                return Math.floor((Math.random() * (max - min + 1)) + min);
-            },
-            predictCookiesToBake: function (averageCookiesPerCustomer, randomGenCustomers) {
-                var cookies = Math.round(this.averageCookiesPerCustomer * this.generateRandomCustomers(this.minHourlyCustomers, this.maxHourlyCustomers));
-                this.cookieCounts.push(cookies);
-                return cookies;
-            }
-        },
-        alki: {
-            minHourlyCustomers: 2,
-            maxHourlyCustomers: 16,
-            averageCookiesPerCustomer: 4.6,
-            cookieCounts: [],
-            generateRandomCustomers: function (min, max) {
-                return Math.floor((Math.random() * (max - min + 1)) + min);
-            },
-            predictCookiesToBake: function (averageCookiesPerCustomer, randomGenCustomers) {
-                var cookies = Math.round(this.averageCookiesPerCustomer * this.generateRandomCustomers(this.minHourlyCustomers, this.maxHourlyCustomers));
-                this.cookieCounts.push(cookies);
-                return cookies;
-            }
-        }
+    function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
+        this.minHourlyCustomers = minHourlyCustomers;
+        this.maxHourlyCustomers = maxHourlyCustomers;
+        this.averageCookiesPerCustomer = averageCookiesPerCustomer;
+        this.cookieCounts = [];
+    }
+
+    Store.prototype.generateRandomCustomers = function (min, max) {
+        return Math.floor((Math.random() * (max - min + 1)) + min);
 
     };
 
-    
+    Store.prototype.predictCookiesToBake = function (averageCookiesPerCustomer, randomGenCustomers) {
+        var cookies = Math.round(this.averageCookiesPerCustomer * this.generateRandomCustomers(this.minHourlyCustomers, this.maxHourlyCustomers));
+        this.cookieCounts.push(cookies);
+        return cookies; 
+    };
+
+    var firstandpike = new Store(23, 65, 6.3);
+    var seatacairport = new Store(3, 24, 1.2);
+    var seattlecenter = new Store(11, 38, 3.7);
+    var capitolhill = new Store(28, 38, 2.3);
+    var alki = new Store(2, 16, 4.6);
+
+    var stores = {
+        firstandpike : firstandpike,
+        seatacairport : seatacairport,
+        seattlecenter : seattlecenter,
+        capitolhill : capitolhill,
+        alki : alki
+    }
 
     printLocationTimeCookiesToDom();
     printTotalsToDom(stores);
 
 
-    //note: Object.keys returns array of stores ["firstandpike", "seatacairports", etc ]
+    //note: Object.keys returns array of stores ["firstandpike", "seatacairport", etc ]
     function printLocationTimeCookiesToDom() {
         for (var h = 0; h < Object.keys(stores).length; h++) { //for each store, make h3 and a ul sibling
             var store = Object.keys(stores)[h];
@@ -115,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
     };
-    
+
     function printTotalsToDom(stores) {
         var totalCookies = [];
         for (var i = 0; i < Object.keys(stores).length; i++) {
