@@ -70,15 +70,27 @@ document.addEventListener('DOMContentLoaded', function () {
             h3.setAttribute('class', 'storename');
             document.body.appendChild(h3);
             h3.textContent = store;
-            
+
+            var ul = document.createElement('ul');
+            ul.setAttribute('id', store + 'List');
+            h3.insertAdjacentElement('afterend', ul);
+
             for (var i = 6; i <= 20; i++) { //for each store: print time, call predictCookiesToBake and print
                 if (i < 12) {
-
-                    console.log(i + 'am: ' + stores[store].predictCookiesToBake()); //sets am
+                    var li = document.createElement('li');
+                    document.getElementById(store + 'List').appendChild(li);
+                    li.textContent = '' + i + 'am: ' + stores[store].predictCookiesToBake() + ' cookies';
+                    console.log(i + 'am: ' + stores[store].predictCookiesToBake() + ' cookies'); //sets am
                 } else if (i === 12) {
-                    console.log(i + 'pm: ' + stores[store].predictCookiesToBake()); //switches to pm
+                    var li = document.createElement('li');
+                    document.getElementById(store + 'List').appendChild(li);
+                    li.textContent = '' +  i + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
+                    console.log(i + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies'); //switches to pm
                 } else {
-                    console.log((i - 12) + 'pm: ' + stores[store].predictCookiesToBake()); //sets back to 1 for afternoon
+                    var li = document.createElement('li');
+                    document.getElementById(store + 'List').appendChild(li);
+                    li.textContent = '' + (i - 12) + 'am: ' + stores[store].predictCookiesToBake() + ' cookies';
+                    console.log((i - 12) + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies'); //sets back to 1 for afternoon
                 }
             };
         }
