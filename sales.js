@@ -64,11 +64,16 @@ document.addEventListener('DOMContentLoaded', function () {
     //iterates through each city
     //
     function printString() {
-        for (var h = 0; h < Object.keys(stores).length; h++) { //loop through each store
-            var store = Object.keys(stores)[h];
-            console.log(store);
+        for (var h = 0; h < Object.keys(stores).length; h++) { //loop through each store 
+            var store = Object.keys(stores)[h];                //make header element for each store
+            var h3 = document.createElement('h3');
+            h3.setAttribute('class', 'storename');
+            document.body.appendChild(h3);
+            h3.textContent = store;
+            
             for (var i = 6; i <= 20; i++) { //for each store: print time, call predictCookiesToBake and print
                 if (i < 12) {
+
                     console.log(i + 'am: ' + stores[store].predictCookiesToBake()); //sets am
                 } else if (i === 12) {
                     console.log(i + 'pm: ' + stores[store].predictCookiesToBake()); //switches to pm
