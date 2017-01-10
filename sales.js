@@ -60,5 +60,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     };
 
+    //Object.keys returns array ["firstandpike", "seatacairports", etc ]
+    //iterates through each city
+    //
+    function printString() {
+        for (var h = 0; h < Object.keys(stores).length; h++) { //loop through each store
+            var store = Object.keys(stores)[h];
+            console.log(store);
+            for (var i = 6; i <= 20; i++) { //for each store: print time, call predictCookiesToBake and print
+                if (i < 12) {
+                    console.log(i + 'am: ' + stores[store].predictCookiesToBake()); //sets am
+                } else if (i === 12) {
+                    console.log(i + 'pm: ' + stores[store].predictCookiesToBake()); //switches to pm
+                } else {
+                    console.log((i - 12) + 'pm: ' + stores[store].predictCookiesToBake()); //sets back to 1 for afternoon
+                }
+            };
+        }
+    };
+
+    printString();
 
 });
