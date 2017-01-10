@@ -1,0 +1,82 @@
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("./nastysalmon.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 50px;
+    padding-bottom: 110px;
+}
+
+h1 {
+    font-size: 2em;
+    padding-bottom: 40px;
+}
+
+
+ul {
+    padding: 15px 0;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.highlight {
+    font-family: Aclonica, Oswald;
+}
+
+nav {
+    border-top: 10px solid #0F1108;
+    border-bottom: 10px solid #0F1108;
+}
+
+nav > ul {
+    border-top: 10px 0 10px 0 solid #0F1108;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.5em;
+}
+
+
+nav li {
+    list-style: none;
+}
+
+nav li >a:hover {
+    color: #FF8A82;
+    transition: 0.1s;
+}
+
+nav li > a {
+    text-decoration: none;
+    color: #CE7B69;
+}
+
+.text {
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.data {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    /*background-image: url("./bakery.jpeg") repeat-x 0 40px;*/
+}
+
+.introbackground {
+    width: 100vw;
+}
+
+panel {
+    color: #E8768E;
+}
+
+.panel2 {
+    color: #8AA5A8;
+}
