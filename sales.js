@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
+    //put all stores in an object
     var stores = {
         firstandpike: {
             minHourlyCustomers: 23,
@@ -60,12 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     };
 
-    //Object.keys returns array ["firstandpike", "seatacairports", etc ]
-    //iterates through each city
-    //
-    function printString() {
-        for (var h = 0; h < Object.keys(stores).length; h++) { //loop through each store 
-            var store = Object.keys(stores)[h];                //make header element for each store
+    //note: Object.keys returns array of stores ["firstandpike", "seatacairports", etc ]
+    function printStringToDom() {
+        for (var h = 0; h < Object.keys(stores).length; h++) { //for each store, make h3 and a ul sibling
+            var store = Object.keys(stores)[h];    
+
             var h3 = document.createElement('h3');
             h3.setAttribute('class', 'storename');
             document.body.appendChild(h3);
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ul.setAttribute('id', store + 'List');
             h3.insertAdjacentElement('afterend', ul);
 
-            for (var i = 6; i <= 20; i++) { //for each store: print time, call predictCookiesToBake and print
+            for (var i = 6; i <= 20; i++) { //for each store: print time (i), call predictCookiesToBake and print
                 if (i < 12) {
                     var li = document.createElement('li');
                     document.getElementById(store + 'List').appendChild(li);
@@ -96,6 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    printString();
+    printStringToDom();
 
 });
