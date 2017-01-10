@@ -82,7 +82,26 @@ document.addEventListener('DOMContentLoaded', function () {
     printTotalsToDom(stores);
 
 
-    //note: Object.keys returns array of stores ["firstandpike", "seatacairports", etc ]
+    function printCookiesToBake(store) {
+        for (var i = 6; i <= 20; i++) { //for each hour, print hour and print predictCookiesToBake
+            if (i < 12) {
+                var li = document.createElement('li');
+                document.getElementById(store + 'List').appendChild(li);
+                li.textContent = '' + i + 'am: ' + stores[store].predictCookiesToBake() + ' cookies';
+
+            } else if (i === 12) {
+                var li = document.createElement('li');
+                document.getElementById(store + 'List').appendChild(li);
+                li.textContent = '' + i + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
+            } else {
+                var li = document.createElement('li');
+                document.getElementById(store + 'List').appendChild(li);
+                li.textContent = '' + (i - 12) + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
+            }
+        }
+    }
+
+    //note: Object.keys returns array of stores ["firstandpike", "seatacairport", etc ]
     function printLocationTimeCookiesToDom() {
         for (var h = 0; h < Object.keys(stores).length; h++) { //for each store, make h3 and a ul sibling
             var store = Object.keys(stores)[h];
@@ -95,27 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
             var ul = document.createElement('ul');
             ul.setAttribute('id', store + 'List');
             h3.insertAdjacentElement('afterend', ul);
-            for (var i = 6; i <= 20; i++) { //for each hour, print hour and print predictCookiesToBake
-                if (i < 12) {
-                    var li = document.createElement('li');
-                    document.getElementById(store + 'List').appendChild(li);
-                    li.textContent = '' + i + 'am: ' + stores[store].predictCookiesToBake() + ' cookies';
-
-                } else if (i === 12) {
-                    var li = document.createElement('li');
-                    document.getElementById(store + 'List').appendChild(li);
-                    li.textContent = '' + i + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
-                } else {
-                    var li = document.createElement('li');
-                    document.getElementById(store + 'List').appendChild(li);
-                    li.textContent = '' + (i - 12) + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
-                }
-            }
-
+            printCookiesToBake(store)
         };
 
     };
-    
+
     function printTotalsToDom(stores) {
         var totalCookies = [];
         for (var i = 0; i < Object.keys(stores).length; i++) {
