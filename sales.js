@@ -34,14 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     printTable();
-    printTotalsToDom(stores);
-
-
-    function createTableElem() {
-        var table = document.createElement('table');
-        document.body.appendChild(table);
-        table.setAttribute('id', 'salestable');
-    }
+    //printTotalsToDom(stores);
 
     function printTable() {
         createTableElem();
@@ -49,29 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
         printLocationsAndCookies();
     }
 
-    function printLocationsAndCookies() {
-
-        for (var h = 0; h < Object.keys(stores).length; h++) { //for each store, make h3 and a ul sibling
-            var store = Object.keys(stores)[h];
-
-            var table = document.getElementById('salestable');
-
-            var tr = document.createElement('tr');
-            table.appendChild(tr);
-
-            var th = document.createElement('th');
-            th.setAttribute('id', store);
-            tr.appendChild(th);
-            th.textContent = store;                     // prints each store
-
-            var td = document.createElement('td');
-            td.setAttribute('id', store + 'List');
-            th.insertAdjacentElement('afterend', td);
-
-            printCookiesToBake(store) // Then, call function to print cookies to bake
-        };
-    };
-
+    function createTableElem() {
+        var table = document.createElement('table');
+        document.body.appendChild(table);
+        table.setAttribute('id', 'salestable');
+    }
 
     function printStoreHours() {
         var storeOpen = 6;
@@ -109,26 +84,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
+    function printLocationsAndCookies() {
+
+        for (var h = 0; h < Object.keys(stores).length; h++) { //for each store... 
+            var store = Object.keys(stores)[h];       
+
+            var table = document.getElementById('salestable');
+            var tr = document.createElement('tr');
+            table.appendChild(tr);                      //insert row to table
+
+            var th = document.createElement('th');      //make table header
+            th.setAttribute('id', store);
+            tr.appendChild(th);
+            th.textContent = store;                     //insert store name into header
+
+            printCookiesToBake(store) // Then, call function to print cookies to bake
+        };
+    };
+    
 
     function printCookiesToBake(store) {
         var storeOpen = 6;
         var storeClose = 20;
-        for (var i = storeOpen; i <= storeClose; i++) { //for each hour, print hour and print predictCookiesToBake
-            console.log('at store ' + store);
-            if (i < 12) {
+        for (var i = storeOpen; i <= storeClose; i++) { //for each hour, print cookies
                 var td = document.createElement('td');
                 document.getElementById(store).insertAdjacentElement('afterend', td);
                 td.textContent = stores[store].predictCookiesToBake();
-
-            } else if (i === 12) {
-                var td = document.createElement('td');
-                document.getElementById(store + 'List').insertAdjacentElement('afterend', td);
-                td.textContent = stores[store].predictCookiesToBake();
-            } else {
-                var td = document.createElement('td');
-                document.getElementById(store).insertAdjacentElement('afterend', td);
-                td.textContent = stores[store].predictCookiesToBake();
-            }
         }
     }
 
