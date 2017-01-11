@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     //CHANGE STORE TIMES HERE
-    var storeOpen = 4;              //code allows to dynamically set store hours
+    var storeOpen = 4;              
     var storeClose = 16;            //uses function to convert military time format 00 - 24
 
     function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     insertDailyTotalCell();
     printLocationsAndCookies();
     insertHourlyTotalsCell();
-    calculateHourlyCookies();
+    collectHourlyCookies();
 
 
 
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
         th.textContent = "Hourly Totals";
     }
 
-    function calculateHourlyCookies() {
+    function collectHourlyCookies() {
         var allHours = [];
 
         for (var h = (storeClose - storeOpen); h >= 0 ; h--) { //for each hour... 
