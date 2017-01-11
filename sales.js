@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
-    var storeOpen = 0;
-    var storeClose = 20;            //code allows to dynamically set store hours
+    var storeOpen = 0;              //code allows to dynamically set store hours
+    var storeClose = 20;            //uses function to convert military time format 00 - 24
 
     function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
         this.minHourlyCustomers = minHourlyCustomers;
@@ -35,18 +35,27 @@ document.addEventListener('DOMContentLoaded', function () {
         alki: alki
     }
 
-    printTable();
 
-    function printTable() {
-        createTableElem();
-        printStoreHours();
-        printLocationsAndCookies(); 
-    }
+    createTableElem();
+    printStoreHours();
+    insertEmptyCornerCell();
+    printLocationsAndCookies();
 
     function createTableElem() {
         var table = document.createElement('table');
         document.body.appendChild(table);
         table.setAttribute('id', 'salestable');
+    }
+
+    function insertEmptyCornerCell() {
+
+        var empty_th = document.createElement('th');
+        empty_th.textContent = "";
+        var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
+        var parent = firstElem.parentElement;
+        console.log(firstElem);
+
+        parent.insertBefore(empty_th, firstElem);    //inserts empty cell
     }
 
     function printStoreHours() {
@@ -62,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         for (var i = storeOpen; i <= storeClose; i++) {
-            if(i === 0) {
+            if (i === 0) {
                 insertTimeString(i + 12, 'am');      //inserts midnight time string
             } else if (i < 12) {
                 insertTimeString(i, 'am');      //inserts am time string
@@ -72,15 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 insertTimeString(i - 12, 'pm');   //inserts afternoon time string
             }
         }
-
-        var empty_th = document.createElement('th');
-        empty_th.textContent = "";
-        var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
-        var parent = firstElem.parentElement;
-        console.log(firstElem);
-
-        parent.insertBefore(empty_th, firstElem);    //inserts empty cell
-
     }
 
     function printLocationsAndCookies() {
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(th);
             th.textContent = store;                     //insert store name into header
 
-            printCookiesToBake(store)// Then, call function to print cookies to bake
+            printCookiesToBake(store); // Then, call function to print cookies to bake
         };
     };
 
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var store = Object.keys(stores)[i];
             totalCookies.push(stores[store].cookieCounts.reduce(function (a, b) {  //boils cookieCounts down to sum
                 return a + b;
-            })); 
+            }));
         }
 
         var uls = document.getElementsByTagName('ul');
