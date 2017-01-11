@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     Store.prototype.generateRandomCustomers = function (min, max) {
         return Math.floor((Math.random() * (max - min + 1)) + min);
-
     };
 
     Store.prototype.predictCookiesToBake = function (averageCookiesPerCustomer, randomGenCustomers) {
@@ -56,37 +55,36 @@ document.addEventListener('DOMContentLoaded', function () {
         var tr = document.createElement('tr');
         table.appendChild(tr);
 
+        function insertTimeString(expression, am_pm) {  //constructs time string
+            var th = document.createElement('th');
+            tr.appendChild(th);
+            th.textContent = '' + expression + am_pm;
+        }
 
         for (var i = storeOpen; i <= storeClose; i++) {
             if (i < 12) {
-                var th = document.createElement('th');
-                tr.appendChild(th);
-                th.textContent = '' + i + 'am';
-
+                insertTimeString(i, 'am');      //inserts am time string
             } else if (i === 12) {
-                var th = document.createElement('th');
-                tr.appendChild(th);
-                th.textContent = '' + i + 'pm';
+                insertTimeString(i, 'pm');      //inserts noon time string
             } else {
-                var th = document.createElement('th');
-                tr.appendChild(th);
-                th.textContent = '' + (i - 12) + 'pm';
+                insertTimeString(i - 12, 'pm');   //inserts afternoon time string
             }
         }
 
-        // var empty_th = document.createElement('th');
-        // empty_th.textContent = "";
-        // var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
-        // var parent = table.firstChild;
-        // console.log(firstElem);
-        // firstElem.insertBefore(parent, empty_th);
+        var empty_th = document.createElement('th');
+        empty_th.textContent = "";
+        var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
+        var parent = firstElem.parentElement;
+        console.log(firstElem);
+
+        parent.insertBefore(empty_th, firstElem);    //complains that can't find firstElem!
 
     }
 
     function printLocationsAndCookies() {
 
         for (var h = 0; h < Object.keys(stores).length; h++) { //for each store... 
-            var store = Object.keys(stores)[h];       
+            var store = Object.keys(stores)[h];
 
             var table = document.getElementById('salestable');
             var tr = document.createElement('tr');
@@ -97,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(th);
             th.textContent = store;                     //insert store name into header
 
-            printCookiesToBake(store) // Then, call function to print cookies to bake
+            printCookiesToBake(store)// Then, call function to print cookies to bake
         };
     };
 
@@ -105,11 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var storeOpen = 6;
         var storeClose = 20;
         for (var i = storeOpen; i <= storeClose; i++) { //for each hour, print cookies
-                var td = document.createElement('td');
-                document.getElementById(store).insertAdjacentElement('afterend', td);
-                td.textContent = stores[store].predictCookiesToBake();
+            var td = document.createElement('td');
+            document.getElementById(store).insertAdjacentElement('afterend', td);
+            td.textContent = stores[store].predictCookiesToBake();
         }
-    }
+    };
 
     function printTotalsToDom(stores) {
         var totalCookies = [];
@@ -126,5 +124,5 @@ document.addEventListener('DOMContentLoaded', function () {
             ulsArray[i].appendChild(totalsli);
             totalsli.textContent = 'Total: ' + totalCookies[i];
         }
-    }
+    };
 });
