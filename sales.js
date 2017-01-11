@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
     alki: alki,
   };
 
-
   createTableElem();
 
   printStoreHours();
@@ -46,8 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
   insertHourlyTotalsCell();
   collectHourlyCookies();
 
-
-
   function createTableElem() {
     var table = document.createElement('table');
     document.body.appendChild(table);
@@ -56,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function insertEmptyCornerCell() {
     var empty_th = document.createElement('th');
-    empty_th.textContent = "";
+    empty_th.textContent = '';
     var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
     var parent = firstElem.parentElement;
 
@@ -99,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function printLocationsAndCookies() {
 
-    for (var h = 0; h < Object.keys(stores).length; h++) { //for each store... 
+    for (var h = 0; h < Object.keys(stores).length; h++) { //for each store...
       var store = Object.keys(stores)[h];
 
       var table = document.getElementById('salestable');
@@ -123,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     printLocationTotalCookies(store);
   };
-
 
   function printLocationTotalCookies(store) {
     var td = document.createElement('td');
@@ -151,10 +147,10 @@ document.addEventListener('DOMContentLoaded', function () {
   function collectHourlyCookies() {
     var allHours = [];
 
-    for (var h = (storeClose - storeOpen); h >= 0; h--) { //for each hour... 
+    for (var h = (storeClose - storeOpen); h >= 0; h--) { //for each hour...
       var outer = [];
       var inner = []; //create outer array
-      for (var i = 0; i < Object.keys(stores).length; i++) { //iterate through each store 
+      for (var i = 0; i < Object.keys(stores).length; i++) { //iterate through each store
         var store = Object.keys(stores)[i];
         outer[i] = stores[store].cookieCounts[h];
         //populate inner array
