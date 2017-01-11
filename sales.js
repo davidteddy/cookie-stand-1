@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     printTable();
-    printLocationTimeCookiesToDom();
     printTotalsToDom(stores);
 
 
@@ -44,15 +43,16 @@ document.addEventListener('DOMContentLoaded', function () {
         table.setAttribute('id', 'salestable');
     }
 
-
-
     function printTable() {
-
         createTableElem();
+        printStoreHours();
+        printLocationsAndCookies();
+    }
+
+    function printLocationsAndCookies() {
 
         for (var h = 0; h < Object.keys(stores).length; h++) { //for each store, make h3 and a ul sibling
             var store = Object.keys(stores)[h];
-
 
             var table = document.getElementById('salestable');
 
@@ -73,43 +73,64 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
 
+    function printStoreHours() {
+        var storeOpen = 6;
+        var storeClose = 20;
+
+        var table = document.getElementById('salestable');
+        document.getElementById('salestable')
+        var tr = document.createElement('tr');
+        table.appendChild(tr);
+
+
+        for (var i = storeOpen; i <= storeClose; i++) {
+            if (i < 12) {
+                var th = document.createElement('th');
+                tr.appendChild(th);
+                th.textContent = '' + i + 'am';
+
+            } else if (i === 12) {
+                var th = document.createElement('th');
+                tr.appendChild(th);
+                th.textContent = '' + i + 'pm';
+            } else {
+                var th = document.createElement('th');
+                tr.appendChild(th);
+                th.textContent = '' + (i - 12) + 'pm';
+            }
+        }
+
+        // var empty_th = document.createElement('th');
+        // empty_th.textContent = "";
+        // var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
+        // var parent = table.firstChild;
+        // console.log(firstElem);
+        // firstElem.insertBefore(parent, empty_th);
+
+    }
+
+
     function printCookiesToBake(store) {
-        for (var i = 6; i <= 20; i++) { //for each hour, print hour and print predictCookiesToBake
+        var storeOpen = 6;
+        var storeClose = 20;
+
+        for (var i = storeOpen; i <= storeClose; i++) { //for each hour, print hour and print predictCookiesToBake
             if (i < 12) {
                 var td = document.createElement('td');
-                document.getElementById(store + 'List').appendChild(td);
-                td.textContent = '' + i + 'am: ' + stores[store].predictCookiesToBake() + ' cookies';
+                document.getElementById(store + 'List').insertAdjacentElement('afterend', td);
+                td.textContent = stores[store].predictCookiesToBake();
 
             } else if (i === 12) {
                 var td = document.createElement('td');
-                document.getElementById(store + 'List').appendChild(td);
-                td.textContent = '' + i + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
+                document.getElementById(store + 'List').insertAdjacentElement('afterend', td);
+                td.textContent = stores[store].predictCookiesToBake();
             } else {
                 var td = document.createElement('td');
-                document.getElementById(store + 'List').appendChild(td);
-                td.textContent = '' + (i - 12) + 'pm: ' + stores[store].predictCookiesToBake() + ' cookies';
+                document.getElementById(store + 'List').insertAdjacentElement('afterend', td);
+                td.textContent = stores[store].predictCookiesToBake();
             }
         }
     }
-
-    // //note: Object.keys returns array of stores ["firstandpike", "seatacairport", etc ]
-    // function printLocationTimeCookiesToDom() {
-    //     for (var h = 0; h < Object.keys(stores).length; h++) { //for each store, make h3 and a ul sibling
-    //         var store = Object.keys(stores)[h];
-
-    //         var h3 = document.createElement('h3');
-    //         h3.setAttribute('class', 'storename');
-    //         document.body.appendChild(h3);
-    //         h3.textContent = store;                     // prints each store
-
-    //         var ul = document.createElement('ul');
-    //         ul.setAttribute('id', store + 'List');
-    //         h3.insertAdjacentElement('afterend', ul);
-
-    //         printCookiesToBake(store) // Then, call function to print cookies to bake
-    //     };
-
-    // };
 
     function printTotalsToDom(stores) {
         var totalCookies = [];
