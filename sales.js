@@ -184,9 +184,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    reduceHourlyCookies();
-
-
-
-
 });
