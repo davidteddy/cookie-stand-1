@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     //CHANGE STORE TIMES HERE
-    var storeOpen = 8;              //code allows to dynamically set store hours
-    var storeClose = 20;            //uses function to convert military time format 00 - 24
+    var storeOpen = 4;              //code allows to dynamically set store hours
+    var storeClose = 14;            //uses function to convert military time format 00 - 24
 
     function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
         this.minHourlyCustomers = minHourlyCustomers;
@@ -37,14 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
-
     createTableElem();
 
     printStoreHours();
     insertEmptyCornerCell();
     insertDailyTotalCell();
-
     printLocationsAndCookies();
 
     //insertHourlyTotalCell();
@@ -122,6 +119,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById(store).insertAdjacentElement('afterend', td);
             td.textContent = stores[store].predictCookiesToBake();
         }
+        printLocationTotalCookies(store);
+    };
+
+
+    function printLocationTotalCookies(store) {
         var td = document.createElement('td')
         var parent = document.getElementById(store).parentElement;
         parent.appendChild(td);
@@ -132,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         td.textContent = totalStoreCookies;
 
-
-    };
+    }
 
 });
