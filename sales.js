@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             table.appendChild(tr);
 
             var th = document.createElement('th');
-            th.setAttribute('class', 'storename');
+            th.setAttribute('id', store);
             tr.appendChild(th);
             th.textContent = store;                     // prints each store
 
@@ -113,11 +113,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function printCookiesToBake(store) {
         var storeOpen = 6;
         var storeClose = 20;
-
         for (var i = storeOpen; i <= storeClose; i++) { //for each hour, print hour and print predictCookiesToBake
+            console.log('at store ' + store);
             if (i < 12) {
                 var td = document.createElement('td');
-                document.getElementById(store + 'List').insertAdjacentElement('afterend', td);
+                document.getElementById(store).insertAdjacentElement('afterend', td);
                 td.textContent = stores[store].predictCookiesToBake();
 
             } else if (i === 12) {
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 td.textContent = stores[store].predictCookiesToBake();
             } else {
                 var td = document.createElement('td');
-                document.getElementById(store + 'List').insertAdjacentElement('afterend', td);
+                document.getElementById(store).insertAdjacentElement('afterend', td);
                 td.textContent = stores[store].predictCookiesToBake();
             }
         }
