@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     printTable();
-    //printTotalsToDom(stores);
 
     function printTable() {
         createTableElem();
@@ -101,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
             printCookiesToBake(store) // Then, call function to print cookies to bake
         };
     };
-    
 
     function printCookiesToBake(store) {
         var storeOpen = 6;
