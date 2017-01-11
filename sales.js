@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //CHANGE STORE TIMES HERE
     var storeOpen = 4;              //code allows to dynamically set store hours
-    var storeClose = 14;            //uses function to convert military time format 00 - 24
+    var storeClose = 16;            //uses function to convert military time format 00 - 24
 
     function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
         this.minHourlyCustomers = minHourlyCustomers;
@@ -43,8 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
     insertEmptyCornerCell();
     insertDailyTotalCell();
     printLocationsAndCookies();
+    insertHourlyTotalsCell();
+    calculateHourlyCookies();
 
-    //insertHourlyTotalCell();
+
 
     function createTableElem() {
         var table = document.createElement('table');
@@ -135,5 +137,34 @@ document.addEventListener('DOMContentLoaded', function () {
         td.textContent = totalStoreCookies;
 
     }
+
+    function insertHourlyTotalsCell() {
+        var table = document.getElementById('salestable');
+        var tr = document.createElement('tr');
+        table.appendChild(tr);
+        var th = document.createElement('th');
+        tr.appendChild(th);
+        th.textContent = "Hourly Totals";
+    }
+
+    function calculateHourlyCookies() {
+
+        for (var h = 0; h <= (storeClose - storeOpen); h++) { //for each hour... 
+            var outer = []; //create outer array
+
+
+            for (var i = 0; i < Object.keys(stores).length; i++) { //iterate through each store 
+                var store = Object.keys(stores)[i];
+                console.log(stores);
+                outer[i] = stores[store].cookieCounts[h];
+                //populate inner array
+                var store = Object.keys(stores)[i];
+                console.log();
+
+            }
+            console.log(outer);
+        }
+    }
+
 
 });
