@@ -142,29 +142,51 @@ document.addEventListener('DOMContentLoaded', function () {
         var table = document.getElementById('salestable');
         var tr = document.createElement('tr');
         table.appendChild(tr);
+        tr.setAttribute('id', 'finalrow');
         var th = document.createElement('th');
         tr.appendChild(th);
         th.textContent = "Hourly Totals";
     }
 
     function calculateHourlyCookies() {
+        var allHours = [];
 
         for (var h = 0; h <= (storeClose - storeOpen); h++) { //for each hour... 
-            var outer = []; //create outer array
-
-
+            var outer = [];
+            var inner = []; //create outer array
             for (var i = 0; i < Object.keys(stores).length; i++) { //iterate through each store 
                 var store = Object.keys(stores)[i];
-                console.log(stores);
                 outer[i] = stores[store].cookieCounts[h];
                 //populate inner array
                 var store = Object.keys(stores)[i];
-                console.log();
-
             }
-            console.log(outer);
+
+            inner.push(outer);
+            allHours.push(inner);
+
         }
+        reduceHourlyCookies(allHours);
+
     }
+
+    function reduceHourlyCookies(allHours) {
+        var finalrow = document.getElementById('finalrow');
+
+        allHours.forEach(function (hour) {
+            var td = document.createElement('td');
+            finalrow.appendChild(td);
+            var result = hour.reduce(function (a, b) {
+              return a + b;
+            });
+            td.textContent = result.reduce(function(a,b) {
+                return a + b;
+            });
+        });
+    }
+
+    reduceHourlyCookies();
+
+
 
 
 });
