@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         seattlecenter: seattlecenter,
         capitolhill: capitolhill,
         alki: alki,
-    }
+    };
 
 
     createTableElem();
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function insertDailyTotalCell() {
         var dailyTotalCell = document.createElement('th');
-        dailyTotalCell.textContent = "Daily Location Total"
+        dailyTotalCell.textContent = 'Daily Location Total';
         var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
         var parent = firstElem.parentElement;
 
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function printStoreHours() {
         var table = document.getElementById('salestable');
-        document.getElementById('salestable')
+        document.getElementById('salestable');
         var tr = document.createElement('tr');
         table.appendChild(tr);                      //makes top <tr> for store hours
 
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function printLocationTotalCookies(store) {
-        var td = document.createElement('td')
+        var td = document.createElement('td');
         var parent = document.getElementById(store).parentElement;
         parent.appendChild(td);
 
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         tr.setAttribute('id', 'finalrow');
         var th = document.createElement('th');
         tr.appendChild(th);
-        th.textContent = "Hourly Totals";
+        th.textContent = 'Hourly Totals';
     }
 
     function collectHourlyCookies() {
@@ -171,18 +171,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function reduceHourlyCookies(allHours) {
         var finalrow = document.getElementById('finalrow');
-
         allHours.forEach(function (hour) {
             var td = document.createElement('td');
             finalrow.appendChild(td);
-
             hour.forEach(function(cookies) {
                 td.textContent = cookies.reduce(function(a, b) {
-                    return a+b;
-                })
-            })
+                    return a + b;
+                });
+            });
 
         });
     }
-
 });
