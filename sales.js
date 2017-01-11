@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
-    var storeOpen = 0;              //code allows to dynamically set store hours
+    //CHANGE STORE TIMES HERE
+    var storeOpen = 8;              //code allows to dynamically set store hours
     var storeClose = 20;            //uses function to convert military time format 00 - 24
 
     function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
@@ -20,26 +21,33 @@ document.addEventListener('DOMContentLoaded', function () {
         this.cookieCounts.push(cookies);
         return cookies;
     };
-
+    //ADD NEW STORES HERE
     var firstandpike = new Store(23, 65, 6.3);
     var seatacairport = new Store(3, 24, 1.2);
     var seattlecenter = new Store(11, 38, 3.7);
     var capitolhill = new Store(28, 38, 2.3);
     var alki = new Store(2, 16, 4.6);
-
+    //ADD NEW STORES HERE
     var stores = {
         firstandpike: firstandpike,
         seatacairport: seatacairport,
         seattlecenter: seattlecenter,
         capitolhill: capitolhill,
-        alki: alki
+        alki: alki,
     }
 
 
+
+
     createTableElem();
+
     printStoreHours();
     insertEmptyCornerCell();
+    insertDailyTotalCell();
+
     printLocationsAndCookies();
+
+    //insertHourlyTotalCell();
 
     function createTableElem() {
         var table = document.createElement('table');
@@ -48,37 +56,44 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function insertEmptyCornerCell() {
-
         var empty_th = document.createElement('th');
         empty_th.textContent = "";
         var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
         var parent = firstElem.parentElement;
-        console.log(firstElem);
 
-        parent.insertBefore(empty_th, firstElem);    //inserts empty cell
+        parent.insertBefore(empty_th, firstElem);
+    }
+
+    function insertDailyTotalCell() {
+        var dailyTotalCell = document.createElement('th');
+        dailyTotalCell.textContent = "Daily Location Total"
+        var firstElem = document.getElementById('salestable').firstChild.childNodes[0];
+        var parent = firstElem.parentElement;
+
+        parent.appendChild(dailyTotalCell);
     }
 
     function printStoreHours() {
         var table = document.getElementById('salestable');
         document.getElementById('salestable')
         var tr = document.createElement('tr');
-        table.appendChild(tr);
+        table.appendChild(tr);                      //makes top <tr> for store hours
 
-        function insertTimeString(expression, am_pm) {  //constructs time string to DRY
+        function insertTimeString(expression, am_pm) {  //appends <th> for each hour
             var th = document.createElement('th');
             tr.appendChild(th);
             th.textContent = '' + expression + am_pm;
         }
 
-        for (var i = storeOpen; i <= storeClose; i++) {
+        for (var i = storeOpen; i <= storeClose; i++) {     //iterates through each hour
             if (i === 0) {
-                insertTimeString(i + 12, 'am');      //inserts midnight time string
+                insertTimeString(i + 12, 'am');
             } else if (i < 12) {
-                insertTimeString(i, 'am');      //inserts am time string
+                insertTimeString(i, 'am');
             } else if (i === 12) {
-                insertTimeString(i, 'pm');      //inserts noon time string
+                insertTimeString(i, 'pm');
             } else {
-                insertTimeString(i - 12, 'pm');   //inserts afternoon time string
+                insertTimeString(i - 12, 'pm');
             }
         }
     }
@@ -107,23 +122,17 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById(store).insertAdjacentElement('afterend', td);
             td.textContent = stores[store].predictCookiesToBake();
         }
+        var td = document.createElement('td')
+        var parent = document.getElementById(store).parentElement;
+        parent.appendChild(td);
+
+        var totalStoreCookies = stores[store].cookieCounts.reduce(function (a, b) {  //boils cookieCounts down to sum
+            return a + b;
+        });
+
+        td.textContent = totalStoreCookies;
+
+
     };
 
-    function printTotalsToDom(stores) {
-        var totalCookies = [];
-        for (var i = 0; i < Object.keys(stores).length; i++) {
-            var store = Object.keys(stores)[i];
-            totalCookies.push(stores[store].cookieCounts.reduce(function (a, b) {  //boils cookieCounts down to sum
-                return a + b;
-            }));
-        }
-
-        var uls = document.getElementsByTagName('ul');
-        var ulsArray = Array.prototype.slice.call(uls);
-        for (var i = 0; i < ulsArray.length; i++) {
-            var totalsli = document.createElement('li');
-            ulsArray[i].appendChild(totalsli);
-            totalsli.textContent = 'Total: ' + totalCookies[i];
-        }
-    };
 });
