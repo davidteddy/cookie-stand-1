@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
+    var storeOpen = 0;
+    var storeClose = 20;            //code allows to dynamically set store hours
+
     function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
         this.minHourlyCustomers = minHourlyCustomers;
         this.maxHourlyCustomers = maxHourlyCustomers;
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function printTable() {
         createTableElem();
         printStoreHours();
-        printLocationsAndCookies();
+        printLocationsAndCookies(); 
     }
 
     function createTableElem() {
@@ -47,22 +50,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function printStoreHours() {
-        var storeOpen = 6;
-        var storeClose = 20;
-
         var table = document.getElementById('salestable');
         document.getElementById('salestable')
         var tr = document.createElement('tr');
         table.appendChild(tr);
 
-        function insertTimeString(expression, am_pm) {  //constructs time string
+        function insertTimeString(expression, am_pm) {  //constructs time string to DRY
             var th = document.createElement('th');
             tr.appendChild(th);
             th.textContent = '' + expression + am_pm;
         }
 
         for (var i = storeOpen; i <= storeClose; i++) {
-            if (i < 12) {
+            if(i === 0) {
+                insertTimeString(i + 12, 'am');      //inserts midnight time string
+            } else if (i < 12) {
                 insertTimeString(i, 'am');      //inserts am time string
             } else if (i === 12) {
                 insertTimeString(i, 'pm');      //inserts noon time string
@@ -77,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var parent = firstElem.parentElement;
         console.log(firstElem);
 
-        parent.insertBefore(empty_th, firstElem);    //complains that can't find firstElem!
+        parent.insertBefore(empty_th, firstElem);    //inserts empty cell
 
     }
 
@@ -100,8 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function printCookiesToBake(store) {
-        var storeOpen = 6;
-        var storeClose = 20;
         for (var i = storeOpen; i <= storeClose; i++) { //for each hour, print cookies
             var td = document.createElement('td');
             document.getElementById(store).insertAdjacentElement('afterend', td);
@@ -115,8 +115,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var store = Object.keys(stores)[i];
             totalCookies.push(stores[store].cookieCounts.reduce(function (a, b) {  //boils cookieCounts down to sum
                 return a + b;
-            })); //
+            })); 
         }
+
         var uls = document.getElementsByTagName('ul');
         var ulsArray = Array.prototype.slice.call(uls);
         for (var i = 0; i < ulsArray.length; i++) {
