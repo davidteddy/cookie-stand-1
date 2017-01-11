@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function calculateHourlyCookies() {
         var allHours = [];
 
-        for (var h = 0; h <= (storeClose - storeOpen); h++) { //for each hour... 
+        for (var h = (storeClose - storeOpen); h >= 0 ; h--) { //for each hour... 
             var outer = [];
             var inner = []; //create outer array
             for (var i = 0; i < Object.keys(stores).length; i++) { //iterate through each store 
