@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (i === 12) {
                 insertTimeString(i, 'pm');
             } else {
-                insertTimeString(i - 12, 'pm');
+                insertTimeString(i - 12, 'pm');               
             }
         }
     }
@@ -175,12 +175,13 @@ document.addEventListener('DOMContentLoaded', function () {
         allHours.forEach(function (hour) {
             var td = document.createElement('td');
             finalrow.appendChild(td);
-            var result = hour.reduce(function (a, b) {
-              return a + b;
-            });
-            td.textContent = result.reduce(function(a,b) {
-                return a + b;
-            });
+
+            hour.forEach(function(cookies) {
+                td.textContent = cookies.reduce(function(a, b) {
+                    return a+b;
+                })
+            })
+
         });
     }
 
