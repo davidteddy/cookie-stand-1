@@ -55,30 +55,66 @@ document.addEventListener('DOMContentLoaded', function () {
     fieldset.appendChild(legend);
 
     var label = document.createElement('label');
-    label.setAttribute('for', 'min-hourly-customers');
-    legend.appendChild(label);
+    label.setAttribute('for', 'store-name');
+    legend.insertAdjacentElement('afterend', label);
     var input = document.createElement('input');
     input.setAttribute('type', 'text');
-    input.setAttribute('id', 'store-name-input');
+    input.setAttribute('id', 'store-name');
+    input.setAttribute('name', 'store-name');
+    label.insertAdjacentElement('afterend', input);
+
+    var label = document.createElement('label');
+    label.setAttribute('for', 'min-hourly-customers');
+    legend.insertAdjacentElement('afterend', label);
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'min-hourly-customers');
+    input.setAttribute('name', 'minHourlyCustomers');
     label.insertAdjacentElement('afterend', input);
 
     var label = document.createElement('label');
     label.setAttribute('for', 'max-hourly-customers');
-    legend.appendChild(label);
+    legend.insertAdjacentElement('afterend', label);
     var input = document.createElement('input');
     input.setAttribute('type', 'text');
     input.setAttribute('id', 'max-hourly-customer-input');
+    input.setAttribute('name', 'maxHourlyCustomers');
     label.insertAdjacentElement('afterend', input);
 
     var label = document.createElement('label');
     label.setAttribute('for', 'average-cookies-per-customer');
-    legend.appendChild(label);
+    legend.insertAdjacentElement('afterend', label);
     var input = document.createElement('input');
     input.setAttribute('type', 'text');
     input.setAttribute('id', 'average-cookies-per-customer-input');
+    input.setAttribute('name', 'averageCookiesPerCustomer');
     label.insertAdjacentElement('afterend', input);
 
+    var submit = document.createElement('button');
+    submit.setAttribute('value', 'submit');
+    fieldset.appendChild(submit);
+    submit.innerText = 'submit';
+
+    createObject(form);
   }
+
+  function createObject(form){
+    form.addEventListener('submit', function (event){
+      event.preventDefault();
+      event.stopPropagation();
+
+      var minHourlyCustomers = event.target.minHourlyCustomers.value;
+      var maxHourlyCustomers = event.target.maxHourlyCustomers.value;
+      var averageCookiesPerCustomer = event.target.averageCookiesPerCustomer.value;
+
+      console.dir(event.target);
+
+      var store = new Store (minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer);
+      console.log(store);
+
+    }, false);
+  }
+
   function createTableElem() {
     var table = document.createElement('table');
     document.body.appendChild(table);
