@@ -2,13 +2,13 @@ document.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
   //CHANGE STORE TIMES HERE
-  var storeOpen = 4;
-  var storeClose = 16;            //uses function to convert military time format 00 - 24
+  var storeOpen = 5;
+  var storeClose = 10;            //uses function to convert military time format 00 - 24
 
   function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
     this.minHourlyCustomers = parseInt(minHourlyCustomers);
     this.maxHourlyCustomers = parseInt(maxHourlyCustomers);
-    this.averageCookiesPerCustomer = parseInt(averageCookiesPerCustomer);
+    this.averageCookiesPerCustomer = parseFloat(averageCookiesPerCustomer);
     this.cookieCounts = [];
   }
 
@@ -33,8 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
     seatacairport: seatacairport,
     seattlecenter: seattlecenter,
     capitolhill: capitolhill,
-    alki: alki,
+    alki: alki
   };
+
   createFormElem();
   createTableElem();
 
@@ -44,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
   printLocationsAndCookies();
   insertHourlyTotalsCell();
   collectHourlyCookies();
-  function createFormElem(){
+
+  function createFormElem() {
     var form = document.createElement('form');
     document.body.appendChild(form);
     form.setAttribute('id', 'storeform');
@@ -55,21 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
     fieldset.appendChild(legend);
 
     var label = document.createElement('label');
-    label.setAttribute('for', 'store-name');
+    label.setAttribute('for', 'average-cookies-per-customer');
     legend.insertAdjacentElement('afterend', label);
     var input = document.createElement('input');
     input.setAttribute('type', 'text');
-    input.setAttribute('id', 'store-name');
-    input.setAttribute('name', 'store-name');
-    label.insertAdjacentElement('afterend', input);
-
-    var label = document.createElement('label');
-    label.setAttribute('for', 'min-hourly-customers');
-    legend.insertAdjacentElement('afterend', label);
-    var input = document.createElement('input');
-    input.setAttribute('type', 'text');
-    input.setAttribute('id', 'min-hourly-customers');
-    input.setAttribute('name', 'minHourlyCustomers');
+    input.setAttribute('id', 'average-cookies-per-customer-input');
+    input.setAttribute('name', 'averageCookiesPerCustomer');
     label.insertAdjacentElement('afterend', input);
 
     var label = document.createElement('label');
@@ -82,12 +75,21 @@ document.addEventListener('DOMContentLoaded', function () {
     label.insertAdjacentElement('afterend', input);
 
     var label = document.createElement('label');
-    label.setAttribute('for', 'average-cookies-per-customer');
+    label.setAttribute('for', 'min-hourly-customers');
     legend.insertAdjacentElement('afterend', label);
     var input = document.createElement('input');
     input.setAttribute('type', 'text');
-    input.setAttribute('id', 'average-cookies-per-customer-input');
-    input.setAttribute('name', 'averageCookiesPerCustomer');
+    input.setAttribute('id', 'min-hourly-customers');
+    input.setAttribute('name', 'minHourlyCustomers');
+    label.insertAdjacentElement('afterend', input);
+
+    var label = document.createElement('label');
+    label.setAttribute('for', 'store-name');
+    legend.insertAdjacentElement('afterend', label);
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'store-name');
+    input.setAttribute('name', 'store-name');
     label.insertAdjacentElement('afterend', input);
 
     var submit = document.createElement('button');
@@ -96,10 +98,28 @@ document.addEventListener('DOMContentLoaded', function () {
     submit.innerText = 'submit';
 
     createObject(form);
-  }
+  };
 
-  function createObject(form){
-    form.addEventListener('submit', function (event){
+  function addFormObjectToTable(store) {
+    var finalrow = document.getElementById('finalrow');
+    var salestable = document.getElementById('salestable');
+
+    var tr = document.createElement('tr');
+
+    salestable.insertBefore(tr, finalrow);
+
+    var storename = document.getElementById('store-name');
+    var th = document.createElement('th');
+    th.setAttribute('id', storename.value);
+
+    th.textContent = storename.value;
+    tr.appendChild(th);
+    printCookiesToBake(storename.value);
+
+  };
+
+  function createObject(form) {
+    form.addEventListener('submit', function (event) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -107,19 +127,36 @@ document.addEventListener('DOMContentLoaded', function () {
       var maxHourlyCustomers = event.target.maxHourlyCustomers.value;
       var averageCookiesPerCustomer = event.target.averageCookiesPerCustomer.value;
 
-      console.dir(event.target);
+      var store = new Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer);
+      var storeBox = document.getElementById('store-name');
+      if (stores.hasOwnProperty(storeBox.value)) {
+        alert('Store already exists');
+      } else {
+        stores[storeBox.value] = store;         //populates store object
+        addFormObjectToTable(store.value);
+      }
 
-      var store = new Store (minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer);
-      console.log(store);
-
+      clearFinalRow();
     }, false);
-  }
+  };
+
+  function clearFinalRow() {
+    var table = document.getElementById('salestable');
+    var finalrow = table.children[table.children.length - 1];
+
+    var finalrowAry = Array.prototype.slice.call(finalrow.children);
+    console.log(finalrowAry);
+    for (var i = 1; i < finalrowAry.length; i++) {
+      finalrowAry[i].remove();
+    }
+    collectHourlyCookies();
+  };
 
   function createTableElem() {
     var table = document.createElement('table');
     document.body.appendChild(table);
     table.setAttribute('id', 'salestable');
-  }
+  };
 
   function insertEmptyCornerCell() {
     var empty_th = document.createElement('th');
@@ -128,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var parent = firstElem.parentElement;
 
     parent.insertBefore(empty_th, firstElem);
-  }
+  };
 
   function insertDailyTotalCell() {
     var dailyTotalCell = document.createElement('th');
@@ -137,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var parent = firstElem.parentElement;
 
     parent.appendChild(dailyTotalCell);
-  }
+  };
 
   function printStoreHours() {
     var table = document.getElementById('salestable');
@@ -162,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
         insertTimeString(i - 12, 'pm');
       }
     }
-  }
+  };
 
   function printLocationsAndCookies() {
 
@@ -183,8 +220,11 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   function printCookiesToBake(store) {
+
     for (var i = storeOpen; i <= storeClose; i++) { //for each hour, print cookies
+      console.log(store);
       var td = document.createElement('td');
+      //console.log(stores);
       document.getElementById(store).insertAdjacentElement('afterend', td);
       td.textContent = stores[store].predictCookiesToBake();
     }
@@ -202,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     td.textContent = totalStoreCookies;
 
-  }
+  };
 
   function insertHourlyTotalsCell() {
     var table = document.getElementById('salestable');
@@ -212,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var th = document.createElement('th');
     tr.appendChild(th);
     th.textContent = 'Hourly Totals';
-  }
+  };
 
   function collectHourlyCookies() {
     var allHours = [];
@@ -233,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     reduceHourlyCookies(allHours);
 
-  }
+  };
 
   function reduceHourlyCookies(allHours) {
     var finalrow = document.getElementById('finalrow');
@@ -247,5 +287,5 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
     });
-  }
+  };
 });
