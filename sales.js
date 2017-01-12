@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var storeClose = 16;            //uses function to convert military time format 00 - 24
 
   function Store(minHourlyCustomers, maxHourlyCustomers, averageCookiesPerCustomer) {
-    this.minHourlyCustomers = minHourlyCustomers;
-    this.maxHourlyCustomers = maxHourlyCustomers;
-    this.averageCookiesPerCustomer = averageCookiesPerCustomer;
+    this.minHourlyCustomers = parseInt(minHourlyCustomers);
+    this.maxHourlyCustomers = parseInt(maxHourlyCustomers);
+    this.averageCookiesPerCustomer = parseInt(averageCookiesPerCustomer);
     this.cookieCounts = [];
   }
 
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     capitolhill: capitolhill,
     alki: alki,
   };
-
+  createFormElem();
   createTableElem();
 
   printStoreHours();
@@ -44,7 +44,41 @@ document.addEventListener('DOMContentLoaded', function () {
   printLocationsAndCookies();
   insertHourlyTotalsCell();
   collectHourlyCookies();
+  function createFormElem(){
+    var form = document.createElement('form');
+    document.body.appendChild(form);
+    form.setAttribute('id', 'storeform');
+    var fieldset = document.createElement('fieldset');
+    var formEl = document.getElementById('storeform');
+    formEl.appendChild(fieldset);
+    var legend = document.createElement('legend');
+    fieldset.appendChild(legend);
 
+    var label = document.createElement('label');
+    label.setAttribute('for', 'min-hourly-customers');
+    legend.appendChild(label);
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'store-name-input');
+    label.insertAdjacentElement('afterend', input);
+
+    var label = document.createElement('label');
+    label.setAttribute('for', 'max-hourly-customers');
+    legend.appendChild(label);
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'max-hourly-customer-input');
+    label.insertAdjacentElement('afterend', input);
+
+    var label = document.createElement('label');
+    label.setAttribute('for', 'average-cookies-per-customer');
+    legend.appendChild(label);
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', 'average-cookies-per-customer-input');
+    label.insertAdjacentElement('afterend', input);
+
+  }
   function createTableElem() {
     var table = document.createElement('table');
     document.body.appendChild(table);
